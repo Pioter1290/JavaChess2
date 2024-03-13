@@ -23,6 +23,7 @@ public class Board extends JFrame {
         createChessBoard();
         addPawns();
         addRooks();
+        addBishops();
         setVisible(true);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -80,6 +81,22 @@ public class Board extends JFrame {
         for (int i = 0; i < rooks.length; i++) {
             rooks[i].addRook(squares, buttons, rooks[i].getX(), rooks[i].getY());
             piecePositions.put(new Point(rooks[i].getX(), rooks[i].getY()), "rook");
+
+        }
+    }
+    private void addBishops(){
+        Bishop bishops[] = new Bishop[4];
+        bishops[0] = new Bishop("white", 0, 2, "bishop");
+        pieceColor.put(new Point(0, 2), "white");
+        bishops[1] = new Bishop("white", 0, 5, "bishop");
+        pieceColor.put(new Point(0, 5), "white");
+        bishops[2] = new Bishop("black", 7, 2, "bishop");
+        pieceColor.put(new Point(7, 2), "black");
+        bishops[3] = new Bishop("black", 7, 5, "bishop");
+        pieceColor.put(new Point(7, 5), "black");
+        for (int i = 0; i < bishops.length; i++) {
+            bishops[i].addBishop(squares, buttons, bishops[i].getX(), bishops[i].getY());
+            piecePositions.put(new Point(bishops[i].getX(), bishops[i].getY()), "bishop");
 
         }
     }
@@ -150,6 +167,16 @@ public class Board extends JFrame {
                                     }
                                 }
                             }
+                            if (pieceName != null && pieceName.equals("bishop")) {
+                                Bishop bishop = new Bishop(color, selectedX, selectedY, "bishop");
+                                possibleMoves = bishop.getPossibleMoves(squares, buttons);
+                                for (Point move : possibleMoves) {
+                                    if (move.getX() == finalI && move.getY() == finalJ) {
+                                        isValidMove = true;
+                                        break;
+                                    }
+                                }
+                            }
                             if (isValidMove) {
                                 movePiece(selectedX, selectedY, finalI, finalJ);
                             }
@@ -173,6 +200,12 @@ public class Board extends JFrame {
                                 possibleMoves = rook.getPossibleMoves(squares, buttons);
                                 //System.out.println(possibleMoves);
                             }
+                            if (pieceName != null && pieceName.equals("bishop")) {
+                                Bishop bishop = new Bishop(color, selectedX, selectedY, "bishop");
+                                possibleMoves = bishop.getPossibleMoves(squares, buttons);
+                                //System.out.println(possibleMoves);
+                            }
+
                         }
                     }
                 });
