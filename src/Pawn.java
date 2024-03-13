@@ -28,6 +28,7 @@ public class Pawn extends Piece {
         int currentX = getX();
         int currentY = getY();
         String color = getColor();
+
         if (color.equals("white")) {
             if (currentX == 1 && buttons[currentX + 2][currentY].getIcon() == null) {
                 possibleMoves.add(new Point(currentX + 2, currentY));
@@ -35,6 +36,15 @@ public class Pawn extends Piece {
             if (currentX + 1 < 8 && buttons[currentX + 1][currentY].getIcon() == null) {
                 possibleMoves.add(new Point(currentX + 1, currentY));
             }
+            if (currentX + 1 < 8 && currentY + 1 < 8 && buttons[currentX + 1][currentY + 1].getIcon() != null) {
+                possibleMoves.add(new Point(currentX + 1, currentY + 1));
+            }
+
+            if (currentX + 1 < 8 && currentY - 1 >= 0 && buttons[currentX + 1][currentY - 1].getIcon() != null) {
+                possibleMoves.add(new Point(currentX + 1, currentY - 1));
+            }
+
+
         } else {
             if (currentX == 6 && buttons[currentX - 2][currentY].getIcon() == null) {
                 possibleMoves.add(new Point(currentX - 2, currentY));
@@ -42,6 +52,13 @@ public class Pawn extends Piece {
             if (currentX - 1 >= 0 && buttons[currentX - 1][currentY].getIcon() == null) {
                 possibleMoves.add(new Point(currentX - 1, currentY));
             }
+            if (currentX - 1 >= 0 && currentY + 1 < 8 && buttons[currentX - 1][currentY + 1].getIcon() != null) {
+                possibleMoves.add(new Point(currentX - 1, currentY + 1));
+            }
+            if (currentX - 1 >= 0 && currentY - 1 >= 0 && buttons[currentX - 1][currentY - 1].getIcon() != null) {
+                possibleMoves.add(new Point(currentX - 1, currentY - 1));
+            }
+
         }
         return possibleMoves;
     }

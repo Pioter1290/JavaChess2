@@ -11,6 +11,7 @@ public class Board extends JFrame {
     private JButton[][] buttons = new JButton[8][8];
     private int selectedX = -1;
     private int selectedY = -1;
+    private String currentTurn = "white";
     private HashMap<Point, String> piecePositions = new HashMap<>();
     private HashMap<Point, String> pieceColor = new HashMap<>();
 
@@ -42,7 +43,7 @@ public class Board extends JFrame {
                 buttons[i][j].setOpaque(false);
                 buttons[i][j].setContentAreaFilled(false);
                 buttons[i][j].setBorderPainted(false);
-                buttons[i][j].setForeground(Color.GREEN);
+
                 panel.add(buttons[i][j]);
             }
         }
@@ -83,22 +84,35 @@ public class Board extends JFrame {
         }
     }
 
-    private void removePiece(int x, int y) {
-        JPanel panel = squares[x][y];
-        panel.remove(buttons[x][y]);
-        panel.revalidate();
-        panel.repaint();
-    }
-
     private void movePiece(int fromX, int fromY, int toX, int toY) {
         JButton fromButton = buttons[fromX][fromY];
         JButton toButton = buttons[toX][toY];
-        toButton.setIcon(fromButton.getIcon());
-        fromButton.setIcon(null);
-        piecePositions.put(new Point(toX, toY),piecePositions.get(new Point(fromX, fromY)));
-        piecePositions.put(new Point(fromX, fromY), null);
-        pieceColor.put(new Point(toX, toY),pieceColor.get(new Point(fromX, fromY)));
-        pieceColor.put(new Point(fromX, fromY), null);
+        Icon icon = fromButton.getIcon();
+        String pieceColorAtDestination = getPieceColorAt(toX, toY);
+
+        if (pieceColorAtDestination == null || !pieceColorAtDestination.equals(pieceColor.get(new Point(fromX, fromY)))) {
+            if (currentTurn.equals(pieceColor.get(new Point(fromX, fromY)))) {
+                toButton.setIcon(icon);
+                fromButton.setIcon(null);
+                piecePositions.put(new Point(toX, toY), piecePositions.get(new Point(fromX, fromY)));
+                piecePositions.put(new Point(fromX, fromY), null);
+                pieceColor.put(new Point(toX, toY), pieceColor.get(new Point(fromX, fromY)));
+                pieceColor.put(new Point(fromX, fromY), null);
+                if (currentTurn.equals("white"))
+                    currentTurn = "black";
+                else
+                    currentTurn = "white";
+            } else {
+                System.out.println("Not your turn!");
+            }
+        } else {
+            System.out.println("You can't kill your own piece!");
+        }
+    }
+
+    private String getPieceColorAt(int x, int y) {
+        Point point = new Point(x, y);
+        return pieceColor.getOrDefault(point, null);
     }
 
     private void addPieceListeners() {
@@ -145,19 +159,19 @@ public class Board extends JFrame {
                             selectedX = finalI;
                             selectedY = finalJ;
                             squares[finalI][finalJ].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-                            System.out.println("Clicked button at position: " + finalI + ", " + finalJ);
+                            //System.out.println("Clicked button at position: " + finalI + ", " + finalJ);
                             String pieceName = piecePositions.get(new Point(finalI, finalJ));
                             String color = pieceColor.get(new Point(finalI, finalJ));
                             ArrayList<Point> possibleMoves = new ArrayList<>();
                             if (pieceName != null && pieceName.equals("pawn")) {
                                 Pawn pawn = new Pawn(color, selectedX, selectedY, "pawn");
                                 possibleMoves = pawn.getPossibleMoves(squares, buttons);
-                                System.out.println(possibleMoves);
+                                //System.out.println(possibleMoves);
                             }
                             if (pieceName != null && pieceName.equals("rook")) {
                                 Rook rook = new Rook(color, selectedX, selectedY, "rook");
                                 possibleMoves = rook.getPossibleMoves(squares, buttons);
-                                System.out.println(possibleMoves);
+                                //System.out.println(possibleMoves);
                             }
                         }
                     }

@@ -1,8 +1,6 @@
 import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
 
-public abstract class Piece {
+public  class Piece {
     private String color;
     private String name;
     private int x;
@@ -56,5 +54,5 @@ public abstract class Piece {
         this.icon = icon;
     }
 
-    public abstract ArrayList<Point> getPossibleMoves(JPanel[][] squares, JButton[][] buttons);
+
 }
