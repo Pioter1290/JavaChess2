@@ -25,6 +25,8 @@ public class Board extends JFrame {
         addRooks();
         addBishops();
         addKings();
+        addQueens();
+        addKnights();
         setVisible(true);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -85,6 +87,22 @@ public class Board extends JFrame {
 
         }
     }
+    private void addKnights() {
+        Knight knights[] = new Knight[4];
+        knights[0] = new Knight("white", 0, 1, "knight");
+        pieceColor.put(new Point(0, 1), "white");
+        knights[1] = new Knight("white", 0, 6, "knight");
+        pieceColor.put(new Point(0, 6), "white");
+        knights[2] = new Knight("black", 7, 6, "knight");
+        pieceColor.put(new Point(7, 6), "black");
+        knights[3] = new Knight("black", 7, 1, "knight");
+        pieceColor.put(new Point(7, 1), "black");
+        for (int i = 0; i < knights.length; i++) {
+            knights[i].addKnight(squares, buttons, knights[i].getX(), knights[i].getY());
+            piecePositions.put(new Point(knights[i].getX(), knights[i].getY()), "knight");
+
+        }
+    }
     private void addBishops(){
         Bishop bishops[] = new Bishop[4];
         bishops[0] = new Bishop("white", 0, 2, "bishop");
@@ -111,6 +129,17 @@ public class Board extends JFrame {
         kings[1].addKing(squares, buttons, kings[1].getX(), kings[1].getY());
         piecePositions.put(new Point(kings[1].getX(), kings[1].getY()), "king");
         pieceColor.put(new Point(7, 4), "black");
+    }
+    private void addQueens(){
+        Queen queens[] = new Queen[2];
+        queens[0] = new Queen("white", 0,4,"queen");
+        queens[0].addQueen(squares, buttons, queens[0].getX(), queens[0].getY());
+        piecePositions.put(new Point(queens[0].getX(), queens[0].getY()), "queen");
+        pieceColor.put(new Point(0, 4), "white");
+        queens[1] = new Queen("black", 7, 3,"queen");
+        queens[1].addQueen(squares, buttons, queens[1].getX(), queens[1].getY());
+        piecePositions.put(new Point(queens[1].getX(), queens[1].getY()), "queen");
+        pieceColor.put(new Point(7, 3), "black");
     }
 
     private void movePiece(int fromX, int fromY, int toX, int toY) {
@@ -199,6 +228,26 @@ public class Board extends JFrame {
                                     }
                                 }
                             }
+                            if (pieceName != null && pieceName.equals("queen")) {
+                                Queen queen = new Queen(color, selectedX, selectedY, "queen");
+                                possibleMoves = queen.getPossibleMoves(squares, buttons);
+                                for (Point move : possibleMoves) {
+                                    if (move.getX() == finalI && move.getY() == finalJ) {
+                                        isValidMove = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (pieceName != null && pieceName.equals("knight")) {
+                                Knight knight = new Knight(color, selectedX, selectedY, "knight");
+                                possibleMoves = knight.getPossibleMoves(squares, buttons);
+                                for (Point move : possibleMoves) {
+                                    if (move.getX() == finalI && move.getY() == finalJ) {
+                                        isValidMove = true;
+                                        break;
+                                    }
+                                }
+                            }
                             if (isValidMove) {
                                 movePiece(selectedX, selectedY, finalI, finalJ);
                             }
@@ -230,6 +279,16 @@ public class Board extends JFrame {
                             if (pieceName != null && pieceName.equals("king")) {
                                 King king = new King(color, selectedX, selectedY, "king");
                                 possibleMoves = king.getPossibleMoves(squares, buttons);
+                                //System.out.println(possibleMoves);
+                            }
+                            if (pieceName != null && pieceName.equals("queen")) {
+                                Queen queen = new Queen(color, selectedX, selectedY, "queen");
+                                possibleMoves = queen.getPossibleMoves(squares, buttons);
+                                //System.out.println(possibleMoves);
+                            }
+                            if (pieceName != null && pieceName.equals("knight")) {
+                                Knight knight = new Knight(color, selectedX, selectedY, "knight");
+                                possibleMoves = knight.getPossibleMoves(squares, buttons);
                                 //System.out.println(possibleMoves);
                             }
 

@@ -20,7 +20,6 @@ public class Bishop extends Piece{
     public ArrayList<Point> getPossibleMoves(JPanel[][] squares, JButton[][] buttons) {
         ArrayList<Point> possibleMoves = new ArrayList<>();
 
-        // Check diagonal moves to the top-right
         for (int i = getX() + 1, j = getY() + 1; i < 8 && j < 8; i++, j++) {
             if (buttons[i][j].getIcon() == null) {
                 possibleMoves.add(new Point(i, j));
@@ -32,7 +31,6 @@ public class Bishop extends Piece{
             }
         }
 
-        // Check diagonal moves to the top-left
         for (int i = getX() - 1, j = getY() + 1; i >= 0 && j < 8; i--, j++) {
             if (buttons[i][j].getIcon() == null) {
                 possibleMoves.add(new Point(i, j));
@@ -44,7 +42,6 @@ public class Bishop extends Piece{
             }
         }
 
-        // Check diagonal moves to the bottom-right
         for (int i = getX() + 1, j = getY() - 1; i < 8 && j >= 0; i++, j--) {
             if (buttons[i][j].getIcon() == null) {
                 possibleMoves.add(new Point(i, j));
@@ -56,7 +53,6 @@ public class Bishop extends Piece{
             }
         }
 
-        // Check diagonal moves to the bottom-left
         for (int i = getX() - 1, j = getY() - 1; i >= 0 && j >= 0; i--, j--) {
             if (buttons[i][j].getIcon() == null) {
                 possibleMoves.add(new Point(i, j));
