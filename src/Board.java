@@ -24,6 +24,7 @@ public class Board extends JFrame {
         addPawns();
         addRooks();
         addBishops();
+        addKings();
         setVisible(true);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -99,6 +100,17 @@ public class Board extends JFrame {
             piecePositions.put(new Point(bishops[i].getX(), bishops[i].getY()), "bishop");
 
         }
+    }
+    private void addKings(){
+        King kings[] = new King[2];
+        kings[0] = new King("white", 0,3,"king");
+        kings[0].addKing(squares, buttons, kings[0].getX(), kings[0].getY());
+        piecePositions.put(new Point(kings[0].getX(), kings[0].getY()), "king");
+        pieceColor.put(new Point(0, 3), "white");
+        kings[1] = new King("black", 7, 4,"king");
+        kings[1].addKing(squares, buttons, kings[1].getX(), kings[1].getY());
+        piecePositions.put(new Point(kings[1].getX(), kings[1].getY()), "king");
+        pieceColor.put(new Point(7, 4), "black");
     }
 
     private void movePiece(int fromX, int fromY, int toX, int toY) {
@@ -177,6 +189,16 @@ public class Board extends JFrame {
                                     }
                                 }
                             }
+                            if (pieceName != null && pieceName.equals("king")) {
+                                King king = new King(color, selectedX, selectedY, "king");
+                                possibleMoves = king.getPossibleMoves(squares, buttons);
+                                for (Point move : possibleMoves) {
+                                    if (move.getX() == finalI && move.getY() == finalJ) {
+                                        isValidMove = true;
+                                        break;
+                                    }
+                                }
+                            }
                             if (isValidMove) {
                                 movePiece(selectedX, selectedY, finalI, finalJ);
                             }
@@ -203,6 +225,11 @@ public class Board extends JFrame {
                             if (pieceName != null && pieceName.equals("bishop")) {
                                 Bishop bishop = new Bishop(color, selectedX, selectedY, "bishop");
                                 possibleMoves = bishop.getPossibleMoves(squares, buttons);
+                                //System.out.println(possibleMoves);
+                            }
+                            if (pieceName != null && pieceName.equals("king")) {
+                                King king = new King(color, selectedX, selectedY, "king");
+                                possibleMoves = king.getPossibleMoves(squares, buttons);
                                 //System.out.println(possibleMoves);
                             }
 
